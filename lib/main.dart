@@ -7,123 +7,241 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calculator',
-      theme: ThemeData.dark(),
-      home: MyHomePage(),
+        theme: ThemeData.dark(),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State createState() => new HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int num1, num2;
-  String result, operator, textToDisplay = '';
+class HomePageState extends State<HomePage> {
+  List<String> operators = ["+", "-", "×", "÷"];
+  List<String> hist = [];
+  var history = "", output = "", answer = 0.0;
 
-  Widget setNumberButton(String btnVal) {
-    return RawMaterialButton(
-      onPressed: () => btnClicked(btnVal),
-      child: Text(
-        btnVal,
-        style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.w500),
-      ),
-      shape: new CircleBorder(),
-      elevation: 2.0,
-      fillColor: Colors.black45,
-      padding: const EdgeInsets.all(15.0),
-    );
-  }
-
-  Widget setOperatorButton(String btnVal) {
-    return RawMaterialButton(
-      onPressed: () => btnClicked(btnVal),
-      child: new Text(
-        btnVal,
-        style: TextStyle(
-            fontSize: 35.0,
-            color: Colors.red[700],
-            fontWeight: FontWeight.w500),
-      ),
-      shape: new CircleBorder(),
-      elevation: 2.0,
-      fillColor: Colors.white,
-      highlightColor: Colors.red[100],
-      splashColor: Colors.red[100],
-      padding: const EdgeInsets.all(15.0),
-    );
-  }
-
-  Widget setOperationButton(String btnVal) {
-    return new RawMaterialButton(
-      onPressed: () => btnClicked(btnVal),
-      child: new Text(
-        btnVal,
-        style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.w500),
-      ),
-      shape: new CircleBorder(),
-      elevation: 2.0,
-      fillColor: Colors.red[700],
-      padding: const EdgeInsets.all(15.0),
-    );
-  }
-
-  void btnClicked(String btnVal) {
-    if (btnVal == 'AC') {
-      textToDisplay = '';
-      result = '';
-      num1 = 0;
-      num2 = 0;
-    } else if (btnVal == '.') {
-      clickDot();
-    } else if (btnVal == '+' ||
-        btnVal == '-' ||
-        btnVal == 'x' ||
-        btnVal == '÷' ||
-        btnVal == '±' ||
-        btnVal == '%') {
-      num1 = int.parse(textToDisplay);
-      result = '';
-      operator = btnVal;
-    } else if (btnVal == '=') {
-      num2 = int.parse(textToDisplay);
-      if (operator == '+') {
-        result = (num1 + num2).toString();
-      }
-      if (operator == '-') {
-        result = (num1 - num2).toString();
-      }
-      if (operator == 'x') {
-        result = (num1 * num2).toString();
-      }
-      if (operator == '÷') {
-        result = (num1 ~/ num2).toString();
-      }
-      if (operator == '±') {
-        setState(() {
-          result = '-' + result;
-          textToDisplay = result;
-        });
-      }
-      if (operator == '%') {
-        double percent = 0.0;
-        percent = double.parse(textToDisplay) / 100.0;
-        textToDisplay = textToDisplay.toString() + " ÷ 100 =";
-        result = percent.toString();
-      }
-    } else {
-      result = int.parse(textToDisplay + btnVal).toString();
-    }
-
+  void click1() {
     setState(() {
-      textToDisplay = result;
+      if (double.parse(output) != 0.0)
+        output += "1";
+      else
+        output = "1";
+    });
+  }
+
+  void click2() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "2";
+      else
+        output = "2";
+    });
+  }
+
+  void click3() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "3";
+      else
+        output = "3";
+    });
+  }
+
+  void click4() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "4";
+      else
+        output = "4";
+    });
+  }
+
+  void click5() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "5";
+      else
+        output = "5";
+    });
+  }
+
+  void click6() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "6";
+      else
+        output = "6";
+    });
+  }
+
+  void click7() {
+    setState(() {
+      if (double.parse(output) != 0.0) {
+        output += "7";
+      } else {
+        output = "7";
+      }
+    });
+  }
+
+  void click8() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "8";
+      else
+        output = "8";
+    });
+  }
+
+  void click9() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "9";
+      else
+        output = "9";
+    });
+  }
+
+  void click0() {
+    setState(() {
+      if (double.parse(output) != 0.0)
+        output += "0";
+      else
+        output = "0";
     });
   }
 
   void clickDot() {
     setState(() {
-      result += ".";
+      output += ".";
+    });
+  }
+
+  void clear() {
+    setState(() {
+      history = "";
+      output = "0";
+      answer = 0.0;
+      hist = [];
+    });
+  }
+
+  void sign() {
+    setState(() {
+      if (double.parse(output) == 0.0) {
+      } else {
+        if (output[0] == '-')
+          output = output.substring(1);
+        else
+          output = '-' + output;
+      }
+    });
+  }
+
+  void percent() {
+    setState(() {
+      double percent = 0.0;
+      percent = answer / 100;
+      history = answer.toString() + " ÷ 100 =";
+      output = percent.toString();
+    });
+  }
+
+  String getTape() => hist.join(" ");
+
+  bool isOperator(String s) =>(operators.contains(s));
+
+  bool isNumeric(String s) {
+    if (s == null)
+      return false;
+    return double.parse(s) != null;
+  }
+
+  void equals() {
+    setState(() {
+      if (hist.length <= 3)
+        hist.add(output);
+      history = getTape() + " =";
+      var opr1, opr2, op;
+      opr1 = double.parse(hist.removeAt(0));
+      op = hist.removeAt(0);
+      opr2 = double.parse(hist.removeAt(0));
+      switch (op) {
+        case "+":
+          answer = opr1 + opr2;
+          break;
+        case "-":
+          answer = opr1 - opr2;
+          break;
+        case "×":
+          answer = opr1 * opr2;
+          break;
+        case "÷":
+          answer = opr1 / opr2;
+          break;
+        default:
+      }
+      output = answer.toString();
+      hist.insert(0, answer.toString());
+    });
+  }
+
+  void add() {
+    setState(() {
+      answer = double.parse(output);
+      hist.add(output);
+      hist.add("+");
+      if (hist.length >= 3) {
+        output = "0";
+        equals();
+      }
+      output = "0";
+      history = getTape();
+    });
+  }
+
+  void sub() {
+    setState(() {
+      answer = double.parse(output);
+      hist.add(output);
+      hist.add("-");
+      if (hist.length >= 3) {
+        output = "0";
+        equals();
+      }
+      output = "0";
+      history = getTape();
+    });
+  }
+
+  void div() {
+    setState(() {
+      answer = double.parse(output);
+      hist.add(output);
+      hist.add("÷");
+      if (hist.length >= 3) {
+        output = "0";
+        equals();
+      }
+      output = "0";
+      history = getTape();
+    });
+  }
+
+  void mul() {
+    setState(() {
+      answer = double.parse(output);
+      hist.add(output);
+      hist.add("×");
+      if (hist.length >= 3) {
+        output = "0";
+        equals();
+      }
+      output = "0";
+      history = getTape();
     });
   }
 
@@ -131,8 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-          backgroundColor: Colors.red[700],
-          title: new Image.asset('assets/title.png')),
+          title: Text('Calculator App')),
       body: new Container(
         child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -141,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
               new Padding(
                 padding: new EdgeInsets.only(top: 25.0, right: 15.0),
                 child: new Text(
-                  textToDisplay,
+                  "$history",
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   style: TextStyle(
@@ -155,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding:
                     new EdgeInsets.only(top: 15.0, right: 15.0, bottom: 15.0),
                 child: new Text(
-                  textToDisplay,
+                  "$output",
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   style: TextStyle(
@@ -170,10 +287,57 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      setOperationButton('AC'),
-                      setOperationButton('±'),
-                      setOperationButton('%'),
-                      setOperatorButton('÷'),
+                      new RawMaterialButton(
+                        onPressed: clear,
+                        child: new Icon(
+                          Icons.block,
+                          size: 35.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: sign,
+                        child: new Text(
+                          "±",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: percent,
+                        child: new Text(
+                          "%",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: div,
+                        child: new Text(
+                          "÷",
+                          style: TextStyle(
+                              fontSize: 35.0,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        highlightColor: Colors.red[100],
+                        splashColor: Colors.red[100],
+                        padding: const EdgeInsets.all(15.0),
+                      )
                     ]),
               ),
               new Padding(
@@ -181,10 +345,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      setNumberButton('1'),
-                      setNumberButton('2'),
-                      setNumberButton('3'),
-                      setOperatorButton('×'),
+                      new RawMaterialButton(
+                        onPressed: click1,
+                        child: new Text(
+                          "1",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click2,
+                        child: new Text(
+                          "2",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click3,
+                        child: new Text(
+                          "3",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: mul,
+                        child: new Text(
+                          "×",
+                          style: TextStyle(
+                              fontSize: 35.0,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        highlightColor: Colors.red[100],
+                        splashColor: Colors.red[100],
+                        padding: const EdgeInsets.all(15.0),
+                      )
                     ]),
               ),
               new Padding(
@@ -192,10 +404,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      setNumberButton('4'),
-                      setNumberButton('5'),
-                      setNumberButton('6'),
-                      setOperatorButton('-'),
+                      new RawMaterialButton(
+                        onPressed: click4,
+                        child: new Text(
+                          "4",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click5,
+                        child: new Text(
+                          "5",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click6,
+                        child: new Text(
+                          "6",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: sub,
+                        child: new Text(
+                          "-",
+                          style: TextStyle(
+                              fontSize: 35.0,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        highlightColor: Colors.red[100],
+                        splashColor: Colors.red[100],
+                        padding: const EdgeInsets.all(15.0),
+                      )
                     ]),
               ),
               new Padding(
@@ -203,10 +463,58 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      setNumberButton('7'),
-                      setNumberButton('8'),
-                      setNumberButton('9'),
-                      setOperatorButton('+'),
+                      new RawMaterialButton(
+                        onPressed: click7,
+                        child: new Text(
+                          "7",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click8,
+                        child: new Text(
+                          "8",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: click9,
+                        child: new Text(
+                          "9",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: add,
+                        child: new Text(
+                          "+",
+                          style: TextStyle(
+                              fontSize: 35.0,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        highlightColor: Colors.red[100],
+                        splashColor: Colors.red[100],
+                        padding: const EdgeInsets.all(15.0),
+                      )
                     ]),
               ),
               new Padding(
@@ -214,10 +522,45 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      setNumberButton('0'),
-                      setNumberButton('00'),
-                      setNumberButton('.'),
-                      setOperationButton('='),
+                      new RawMaterialButton(
+                        onPressed: click0,
+                        child: new Text(
+                          "0",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        constraints: BoxConstraints.tightFor(width: 170.0),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(45.0)),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.only(
+                            left: 18.0, top: 15.0, bottom: 15.0, right: 15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: clickDot,
+                        child: new Text(
+                          ".",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.black45,
+                        padding: const EdgeInsets.all(15.0),
+                      ),
+                      new RawMaterialButton(
+                        onPressed: equals,
+                        child: new Text(
+                          "=",
+                          style: TextStyle(
+                              fontSize: 35.0, fontWeight: FontWeight.w500),
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(15.0),
+                      )
                     ]),
               ),
             ]),
